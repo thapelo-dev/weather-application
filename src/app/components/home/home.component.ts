@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Subscription } from 'rxjs';
 import { WeatherService } from 'src/app/services/weather.service';
 
 @Component({
@@ -6,12 +7,15 @@ import { WeatherService } from 'src/app/services/weather.service';
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss']
 })
-export class HomeComponent implements OnInit {
+export class HomeComponent implements OnInit, OnDestroy {
 
-  isLoading = false
+  private cancelationSubscription = new Subscription()
+  public isLoading = false
+  public error = false
   constructor(private weatherService: WeatherService) { }
 
   ngOnInit(): void {
+    this.initValuesOnLoad()
     this.getUserCurrentLocation()
   }
 
@@ -20,7 +24,13 @@ export class HomeComponent implements OnInit {
       navigator.geolocation.getCurrentPosition(position => {
         const { latitude, longitude } = position.coords;
         this.getCurrentWeatherCondition({ latitude, longitude })
+      }, error => {
+        this.error = true;
+        this.isLoading = false;
       })
+    } else {
+      this.isLoading = false;
+      this.error = true;
     }
   }
 
@@ -31,11 +41,28 @@ export class HomeComponent implements OnInit {
       units: 'metric'
     }
 
-    this.weatherService.getUserCurrentWeather(params).subscribe(data => {
-      console.log(data)
-    }, (error) => {
-      console.log(error)
-    })
+    this.cancelationSubscription.add(
+      this.weatherService.getUserCurrentWeather(params).subscribe(data => {
+        this.isLoading = false
+        console.log(data)
+      }, (error) => {
+        console.log(error)
+        this.error = true
+      })
+    )
   }
 
+  initValuesOnLoad() {
+    this.isLoading = true
+    this.error = false
+  }
+
+  refresh() {
+    this.initValuesOnLoad()
+    this.getUserCurrentLocation()
+  }
+
+  ngOnDestroy() {
+    this.cancelationSubscription.unsubscribe()
+  }
 }

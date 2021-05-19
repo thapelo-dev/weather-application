@@ -8,6 +8,7 @@ import { HeaderComponent } from './components/header/header.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { HttpClientModule } from '@angular/common/http';
 import { LoaderComponent } from './components/loader/loader.component';
+import { AlertMessageComponent } from './components/alert-message/alert-message.component';
 
 @NgModule({
   declarations: [
@@ -15,7 +16,8 @@ import { LoaderComponent } from './components/loader/loader.component';
     HomeComponent,
     HeaderComponent,
     FooterComponent,
-    LoaderComponent
+    LoaderComponent,
+    AlertMessageComponent
   ],
   imports: [
     BrowserModule,
