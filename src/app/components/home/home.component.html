@@ -1,3 +1,4 @@
-<div class="container main-container-height">
-  <p>Weather Home</p>
+<div class="container main-container-height p-4 d-flex justify-content-center">
+  <app-alert-message [error]="error" (reload)="refresh()"></app-alert-message>
+  <app-loader [isLoading]="isLoading"></app-loader>
 </div>
