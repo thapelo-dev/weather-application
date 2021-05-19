@@ -44,7 +44,6 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.cancelationSubscription.add(
       this.weatherService.getUserCurrentWeather(params).subscribe(data => {
         this.isLoading = false
-        console.log(data)
       }, (error) => {
         console.log(error)
         this.error = true
