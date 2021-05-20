@@ -1,5 +1,8 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
+import { UNIT } from 'src/app/constants/weather-const';
+import { UserCoordinates } from 'src/app/Interfaces/general/coordinates';
+import { WeatherRes } from 'src/app/Interfaces/response/weather-response';
 import { WeatherService } from 'src/app/services/weather.service';
 
 @Component({
@@ -12,6 +15,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   private cancelationSubscription = new Subscription()
   public isLoading = false
   public error = false
+  public weatherConditionData: WeatherRes = {}
   constructor(private weatherService: WeatherService) { }
 
   ngOnInit(): void {
@@ -21,32 +25,33 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   getUserCurrentLocation() {
     if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(position => {
-        const { latitude, longitude } = position.coords;
+      navigator.geolocation.getCurrentPosition((position) => {
+        const { latitude, longitude } = position.coords
         this.getCurrentWeatherCondition({ latitude, longitude })
-      }, error => {
-        this.error = true;
-        this.isLoading = false;
+      }, (error) => {
+        this.error = true
+        this.isLoading = false
       })
     } else {
-      this.isLoading = false;
-      this.error = true;
+      this.isLoading = false
+      this.error = true
     }
   }
 
-  getCurrentWeatherCondition(coordinates: any) {
+  getCurrentWeatherCondition(coordinates: UserCoordinates) {
     const params = {
       lat: coordinates.latitude,
       lon: coordinates.longitude,
-      units: 'metric'
+      units: UNIT
     }
 
     this.cancelationSubscription.add(
-      this.weatherService.getUserCurrentWeather(params).subscribe(data => {
+      this.weatherService.getUserCurrentWeather(params).subscribe((data: WeatherRes) => {
+        this.weatherConditionData = data
         this.isLoading = false
       }, (error) => {
-        console.log(error)
         this.error = true
+        this.isLoading = false
       })
     )
   }
@@ -54,6 +59,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   initValuesOnLoad() {
     this.isLoading = true
     this.error = false
+    this.weatherConditionData = {}
   }
 
   refresh() {

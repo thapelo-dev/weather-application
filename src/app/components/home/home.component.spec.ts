@@ -109,6 +109,7 @@ describe('HomeComponent', () => {
       component.getCurrentWeatherCondition(coordinates);
 
       expect(component.error).toBeTrue();
+      expect(component.isLoading).toBeFalse();
     }))
   })
 
@@ -119,6 +120,7 @@ describe('HomeComponent', () => {
 
       expect(component.isLoading).toBeTrue();
       expect(component.error).toBeFalse();
+      expect(component.weatherConditionData).toEqual({});
     })
   })
 
