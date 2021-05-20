@@ -1,4 +1,51 @@
-<div class="container main-container-height p-4 d-flex justify-content-center">
+<div class="container main-container-height p-4 d-flex flex-column">
   <app-alert-message [error]="error" (reload)="refresh()"></app-alert-message>
   <app-loader [isLoading]="isLoading"></app-loader>
+
+  <div *ngIf="!isLoading && !error">
+    <h1>Temperature</h1>
+    <div class="row justify-content-md-center">
+      <div class="col col-lg-3">
+        <div class="shadow-sm p-3 mb-5 bg-body rounded temp">
+          <p>{{ weatherConditionData?.name }}</p>
+          <p class="fs-1 text-center">{{ weatherConditionData?.main?.temp }}
+            <span class="degrees-icon">&#8451;</span>
+          </p>
+          <span class="badge rounded-pill bg-light text-dark d-flex" *ngIf="weatherConditionData?.weather.length > 0">{{ weatherConditionData?.weather[0]?.main }}</span>
+        </div>
+      </div>
+    </div>
+    <div class="row align-items-start">
+      <div class="col">
+        <p class="fw-light">It feels like
+          <strong>{{ weatherConditionData?.main?.feels_like }}</strong>
+          <span class="degrees-icon"> &#8451;</span>, and humidity is
+          <strong>{{ weatherConditionData?.main?.humidity }} %</strong>. </p>
+      </div>
+    </div>
+    <div class="row align-items-center">
+      <div class="col">
+        <div class="shadow-sm p-3 rounded">
+          <p class="text-center fw-bold">Min</p>
+          <p class="text-center">{{weatherConditionData?.main?.temp_min }}
+            <span class="degrees-icon">&#8451;</span>
+          </p>
+        </div>
+      </div>
+      <div class="col">
+        <div class="shadow-sm p-3 rounded">
+          <p class="text-center fw-bold">Max</p>
+          <p class="text-center">{{weatherConditionData?.main?.temp_max }}
+            <span class="degrees-icon">&#8451;</span>
+          </p>
+        </div>
+      </div>
+      <div class="col">
+        <div class="shadow-sm p-3 rounded">
+          <p class="text-center fw-bold">Wind</p>
+          <p class="text-center">{{weatherConditionData?.wind?.speed }} km/h</p>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>

@@ -33,8 +33,8 @@ describe('WeatherService', () => {
   it('should GET with query params: getUserCurrentWeather', () => {
     const mockUrl = `${baseUrl}?lat=123&lon=124&appid=${appKey}`;
     const params = {
-      lat: "123",
-      lon: "124",
+      lat: 123,
+      lon: 124,
     }
 
     service.getUserCurrentWeather(params).subscribe();
