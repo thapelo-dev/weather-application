@@ -11,7 +11,7 @@
           <p class="fs-1 text-center">{{ weatherConditionData?.main?.temp }}
             <span class="degrees-icon">&#8451;</span>
           </p>
-          <span class="badge rounded-pill bg-light text-dark d-flex" *ngIf="weatherConditionData?.weather.length > 0">{{ weatherConditionData?.weather[0]?.main }}</span>
+          <span class="badge rounded-pill bg-light text-dark d-flex" *ngIf="weatherConditionData?.weather.length > 0">{{ weatherConditionData?.weather[0]?.description }}</span>
         </div>
       </div>
     </div>
