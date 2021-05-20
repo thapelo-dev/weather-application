@@ -49,4 +49,4 @@ Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.
 
 ## Further questions
 
-If you have any further questions, please shoot me and email.
+If you have any further questions, please shoot me an email.
